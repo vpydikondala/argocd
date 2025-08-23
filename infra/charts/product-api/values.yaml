@@ -5,7 +5,7 @@ image:
 
 service:
   type: ClusterIP
-  port: 8000  # Use 8000 if FastAPI app exposes this port
+  port: 8080  # Use 8000 if FastAPI app exposes this port
 
 ingress:
   enabled: true
