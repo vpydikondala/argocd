@@ -6,7 +6,7 @@ This repo contains both application code and infrastructure for GitOps CI/CD:
 - infra/ - Helm charts, ArgoCD manifests, environment configs
 - .github/workflows - GitHub Actions CI/CD pipelines
 
-# 🚀 DevOps Microshop Monorepo (GitOps CI/CD Project)
+# DevOps Microshop Monorepo (GitOps CI/CD Project)
 
 This is a full-stack GitOps-enabled monorepo project using:
 
@@ -18,7 +18,7 @@ This is a full-stack GitOps-enabled monorepo project using:
 
 ---
 
-## 📦 Monorepo Structure
+## Monorepo Structure
 
 argocd/
 ├── apps/
@@ -45,7 +45,7 @@ argocd/
 └── README.md
 
 
-## 🛠️ Prerequisites
+## Prerequisites
 
 - Docker
 - Minikube
@@ -57,7 +57,7 @@ argocd/
 
 ---
 
-## 🧱 Step-by-Step Instructions
+## Step-by-Step Instructions
 
 ### 🔧 Step 1: Start Minikube
 

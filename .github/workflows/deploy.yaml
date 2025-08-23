@@ -31,7 +31,7 @@ jobs:
 
       - name: Configure Git to use token
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.ARGOCD }}@github.com/vpydikondala/argocd.git
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/vpydikondala/argocd.git
 
       - name: Commit and Push changes
         run: |

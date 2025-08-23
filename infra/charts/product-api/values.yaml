@@ -1,5 +1,5 @@
 image:
-  repository: ghcr.io/VPYDIKONDALA/product-api
+  repository: ghcr.io/vpydikondala/product-api
   tag: latest
   pullPolicy: IfNotPresent
 
