@@ -1,0 +1,42 @@
+name: Update Helm Values in Infra
+
+on:
+  workflow_run:
+    workflows: ["Build and Push Docker Images"]
+    types: [completed]
+  workflow_dispatch:
+
+jobs:
+  update-helm-values:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Show file before update
+        run: cat infra/charts/product-api/values.yaml
+
+      - name: Update product-api image tag
+        run: |
+          yq eval ".image.tag = \"${{ github.sha }}\"" -i infra/charts/product-api/values.yaml
+
+      - name: Show file after update
+        run: cat infra/charts/product-api/values.yaml
+
+      - name: Check git status and diff
+        run: |
+          git status
+          git diff
+
+      - name: Configure Git to use token
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.ARGOCD }}@github.com/vpydikondala/argocd.git
+
+      - name: Commit and Push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "ci@github.com"
+          git add infra/charts/product-api/values.yaml
+          git commit -m "Update image tag to ${{ github.sha }}" || echo "No changes to commit"
+          git push origin HEAD:main

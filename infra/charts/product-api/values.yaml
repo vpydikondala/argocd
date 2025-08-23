@@ -1,0 +1,18 @@
+image:
+  repository: ghcr.io/VPYDIKONDALA/product-api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000  # Use 8000 if FastAPI app exposes this port
+
+ingress:
+  enabled: true
+  className: nginx   # Optional: required by some ingress controllers
+  hosts:
+    - host: product.local
+      paths:
+        - path: /
+          pathType: Prefix
+
