@@ -13,30 +13,17 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false   # Disable automatic token to avoid 403 errors
 
-      - name: Show file before update
-        run: cat infra/charts/product-api/values.yaml
-
-      - name: Update product-api image tag
-        run: |
-          yq eval ".image.tag = \"${{ github.sha }}\"" -i infra/charts/product-api/values.yaml
-
-      - name: Show file after update
-        run: cat infra/charts/product-api/values.yaml
-
-      - name: Check git status and diff
-        run: |
-          git status
-          git diff
-
-      - name: Configure Git to use token
+      - name: Configure git remote with PAT
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/vpydikondala/argocd.git
 
       - name: Commit and Push changes
         run: |
           git config user.name "GitHub Actions"
-          git config user.email "ci@github.com"
+          git config user.email "actions@github.com"
           git add infra/charts/product-api/values.yaml
           git commit -m "Update image tag to ${{ github.sha }}" || echo "No changes to commit"
           git push origin HEAD:main
