@@ -1,5 +1,8 @@
 replicaCount: 1
 
+imagePullSecrets:
+  - name: ghcr-creds
+
 image:
   repository: ghcr.io/vpydikondala/product-api
   tag: latest
