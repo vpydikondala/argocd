@@ -8,11 +8,11 @@ metadata:
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
-    - host: {{ .Values.ingress.hosts[0].host }}
+    - host: {{ index .Values.ingress.hosts 0 "host" }}
       http:
         paths:
-          - path: {{ .Values.ingress.hosts[0].paths[0].path }}
-            pathType: {{ .Values.ingress.hosts[0].paths[0].pathType }}
+          - path: {{ index (index .Values.ingress.hosts 0).paths 0 "path" }}
+            pathType: {{ index (index .Values.ingress.hosts 0).paths 0 "pathType" }}
             backend:
               service:
                 name: {{ include "product-api.fullname" . }}
