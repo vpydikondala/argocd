@@ -14,13 +14,14 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
         with:
-          persist-credentials: false   # Disable automatic token to avoid 403 errors
+          persist-credentials: false   # Disable default GITHUB_TOKEN creds
 
-      - name: Configure git to use PAT for authentication
+      - name: Configure Git for PAT authentication and user info
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/vpydikondala/argocd.git
           git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          git config user.email "ci@github.com"
+
       - name: Commit and Push changes
         run: |
           git add infra/charts/product-api/values.yaml
