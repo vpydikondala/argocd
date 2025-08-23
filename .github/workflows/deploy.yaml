@@ -16,14 +16,13 @@ jobs:
         with:
           persist-credentials: false   # Disable automatic token to avoid 403 errors
 
-      - name: Configure git remote with PAT
+      - name: Configure git to use PAT for authentication
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/vpydikondala/argocd.git
-
-      - name: Commit and Push changes
-        run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+      - name: Commit and Push changes
+        run: |
           git add infra/charts/product-api/values.yaml
-          git commit -m "Update image tag to ${{ github.sha }}" || echo "No changes to commit"
+          git diff --cached --quiet || git commit -m "Update image tag to ${{ github.sha }}"
           git push origin HEAD:main
