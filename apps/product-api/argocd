@@ -1,0 +1,35 @@
+TIMESTAMP                  GROUP                    KIND   NAMESPACE                  NAME    STATUS   HEALTH         HOOK  MESSAGE
+2025-08-24T00:55:02+01:00   apps              Deployment     default           product-api    Synced  Degraded              
+2025-08-24T00:55:02+01:00  networking.k8s.io     Ingress     default           product-api    Synced  Healthy               
+2025-08-24T00:55:02+01:00                        Service     default           product-api    Synced  Healthy               
+2025-08-24T00:55:03+01:00                        Service     default           product-api    Synced  Healthy               service/product-api unchanged
+2025-08-24T00:55:03+01:00   apps              Deployment     default           product-api    Synced  Degraded              deployment.apps/product-api unchanged
+2025-08-24T00:55:03+01:00  networking.k8s.io     Ingress     default           product-api    Synced  Healthy               ingress.networking.k8s.io/product-api unchanged
+
+Name:               argocd/product-api-app
+Project:            default
+Server:             https://kubernetes.default.svc
+Namespace:          default
+URL:                https://localhost:8080/applications/product-api-app
+Source:
+- Repo:             https://github.com/vpydikondala/argocd
+  Target:           HEAD
+  Path:             infra/charts/product-api
+  Helm Values:      values.yaml
+SyncWindow:         Sync Allowed
+Sync Policy:        Automated (Prune)
+Sync Status:        Synced to HEAD (a75a4d7)
+Health Status:      Degraded
+
+Operation:          Sync
+Sync Revision:      a75a4d7c0770896b40d72efb8fb7eabaa775bcd1
+Phase:              Succeeded
+Start:              2025-08-24 00:55:02 +0100 BST
+Finished:           2025-08-24 00:55:03 +0100 BST
+Duration:           1s
+Message:            successfully synced (all tasks run)
+
+GROUP              KIND        NAMESPACE  NAME         STATUS  HEALTH  HOOK  MESSAGE
+                   Service     default    product-api  Synced                service/product-api unchanged
+apps               Deployment  default    product-api  Synced                deployment.apps/product-api unchanged
+networking.k8s.io  Ingress     default    product-api  Synced                ingress.networking.k8s.io/product-api unchanged

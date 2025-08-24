@@ -1,0 +1,57 @@
+---
+# Source: product-api/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-api
+spec:
+  selector:
+    app: product-api
+  ports:
+    - port: 8000
+      targetPort: 8000
+---
+# Source: product-api/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-api
+  template:
+    metadata:
+      labels:
+        app: product-api
+    spec:
+      imagePullSecrets:
+        - name: ghcr-creds
+      containers:
+        - name: product-api
+          image: "ghcr.io/vpydikondala/product-api:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+---
+# Source: product-api/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: product-api
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: product.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: product-api
+                port:
+                  number: 8000

@@ -1,0 +1,7 @@
+Error: unknown command "get" for "argocd"
+
+Did you mean this?
+	cert
+	gpg
+
+Run 'argocd --help' for usage.

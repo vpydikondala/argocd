@@ -1,0 +1,2 @@
+Error: unknown command "push" for "argocd"
+Run 'argocd --help' for usage.
