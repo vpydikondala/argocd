@@ -1,21 +1,31 @@
-{{- if .Values.ingress.enabled }}
+{{- if and .Values.ingress .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "product-api.fullname" . }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    {{- range $k, $v := . }}
+    {{ $k }}: {{ $v | quote }}
+    {{- end }}
+  {{- end }}
 spec:
-  ingressClassName: {{ .Values.ingress.className }}
+  {{- with .Values.ingress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
   rules:
-    - host: {{ .Values.ingress.hosts[0].host }}
+    {{- range $h := (.Values.ingress.hosts | default list) }}
+    - host: {{ $h.host | quote }}
       http:
         paths:
-          - path: {{ .Values.ingress.hosts[0].paths[0].path }}
-            pathType: {{ .Values.ingress.hosts[0].paths[0].pathType }}
+          {{- range $p := ($h.paths | default list) }}
+          - path: {{ $p.path | default "/" }}
+            pathType: {{ $p.pathType | default "Prefix" }}
             backend:
               service:
-                name: {{ include "product-api.fullname" . }}
+                name: {{ include "product-api.fullname" $ }}
                 port:
-                  number: 80  # Make sure this matches the service port exposed (80)
+                  number: {{ $.Values.service.port | default 80 }}
+          {{- end }}
+    {{- end }}
 {{- end }}

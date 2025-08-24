@@ -9,15 +9,25 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
-  port: 8000  # Use 8000 if FastAPI app exposes this port
+  port: 80        # Service port exposed inside the cluster
+  targetPort: 8000 # Container port your FastAPI app listens on
+
+# If your container needs explicit start command/args
+command: []
+args:
+  - uvicorn
+  - main:app
+  - --host
+  - 0.0.0.0
+  - --port
+  - "8000"
 
 ingress:
   enabled: true
-  className: nginx   # Optional: required by some ingress controllers
+  className: nginx
+  annotations: {}
   hosts:
     - host: product.local
       paths:
         - path: /
           pathType: Prefix
-

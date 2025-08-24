@@ -6,6 +6,7 @@ spec:
   selector:
     app: {{ include "product-api.name" . }}
   ports:
-    - port: 80
-      targetPort: 8000
+    - name: http
+      port: {{ .Values.service.port | default 80 }}
+      targetPort: {{ .Values.service.targetPort | default 8000 }}
   type: ClusterIP
